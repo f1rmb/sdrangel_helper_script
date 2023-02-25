@@ -5,6 +5,7 @@
 #
 # License GPLv2: GNU GPL version 2 <http://gnu.org/licenses/gpl2.html>.
 
+
 # Where sources will be downloaded
 SRC_ROOT=~/src/Ham/SDRangel/sources
 
@@ -14,13 +15,25 @@ INSTALL_DIR=/opt/sdrangel
 DEPS_INSTALL_DIR=$INSTALL_DIR/deps
 
 # Internal variables
-SCRIPT_VERSION="0.1.1"
+SCRIPT_VERSION="0.2.0"
 SANITY_RUN_ONCE=1
-EXEC_OPTARG_SCRATCH=0
-EXEC_OPTARG_SOAPY=0
+
+OPTION_EXECUTE_FROM_SCRATCH=0
+OPTION_ENABLE_SOAPY=0
+OPTION_ENABLE_SHUTTERPRO=0
+
+SHUTTLEPRO_BINARY=/usr/local/bin/shuttlepro
+SHUTTLEPRO_DEVICE=/dev/input/by-id/usb-Contour_Design_ShuttleXpress-event-if00
 
 # Silence "Couldn't connect to accessibility bus: Failed to connect to socket..." error message
 export NO_AT_BRIDGE=1
+
+
+## override variables
+if [ -e ~/.sdrangel_helper_options.txt ]; then
+    echo "Read options from ~/.sdrangel_helper_options.txt"
+    source ~/.sdrangel_helper_options.txt
+fi
 
 
 echo "SDRangel helper script v$SCRIPT_VERSION"
@@ -741,15 +754,37 @@ function build_all() {
 function run_SDRangel() {
     if [ -e $INSTALL_DIR/bin/sdrangel ]; then
 	optargs=""
-	
-	if [ x$EXEC_OPTARG_SCRATCH != "x0" ]; then
+
+	if [ x$OPTION_EXECUTE_FROM_SCRATCH != "x0" ]; then
 	    optargs="--scratch"
 	fi
 	
-	if [ x$EXEC_OPTARG_SOAPY != "x0" ]; then
+	if [ x$OPTION_ENABLE_SOAPY != "x0" ]; then
 	    optargs="$optargs --soapy"
 	fi
 
+	if [ x$OPTION_ENABLE_SHUTTERPRO != "x0" ]; then
+	    if [ -e $SHUTTLEPRO_BINARY ]; then
+		if [ ! -z $(grep "\[SDRangel\]" ~/.shuttlerc) ]; then
+		    if [ -z $(pgrep shuttlepro) ]; then
+			if [ -e $SHUTTLEPRO_DEVICE ]; then
+			    echo -n "Starting ShuttlePRO..."
+			    nohup shuttlepro /dev/input/by-id/usb-Contour_Design_ShuttleXpress-event-if00 > /dev/null 2<&1 &
+			    echo -e "\b\b\b: done."
+			else
+			    echo "ShuttlePRO device is not plugged/available, kipping..."
+			fi
+		    else
+			echo "ShuttlePRO is already running, skipping..."
+		    fi
+		else
+		    echo "SDRangel entry not found in ShuttlePRO ressource file, skipping..."
+		fi
+	    else
+		echo "ShuttlePRO binary not found, skipping..."
+	    fi
+	fi
+	
 	#export QT_SCREEN_SCALE_FACTORS=1
 	#export QT_SCALE_FACTOR=1
 	#export QT_AUTO_SCREEN_SCALE_FACTOR=0
@@ -779,9 +814,18 @@ function usage() {
     echo "  -e, --execute              Execute SDRangel."
     echo "      --scratch              Execute SDRangel from scratch (no current config)"
     echo "      --soapy                Execute SDRangel with Soapy SDR support"
+    echo "      --shuttle              Execute shuttlepro software if needed."
     echo "      --shell                Open a sub-shell (bash) with LD_LIBRARY_PATH set."
     echo "      --install              Install this script to $HOME/bin/angel.sh"
     echo "  [no arg]                   Execute SDRangel."
+    echo ""
+    echo ""
+    echo " A file (~/.sdrangel_helper_options.txt) can be used to enable some features by default."
+    echo " You simply need to set one or more of these variables to 1, one variable per line. A hash (#) comments a line."
+    echo " Available variables: "
+    echo "     - OPTION_EXECUTE_FROM_SCRATCH (--scratch)"
+    echo "     - OPTION_ENABLE_SOAPY (--soapy)"
+    echo "     - OPTION_ENABLE_SHUTTERPRO (--shuttle)"
     echo ""
 }
 
@@ -826,10 +870,13 @@ fi
 		exit $ret
 		;;
 	    --scratch)
-		export EXEC_OPTARG_SCRATCH=1
+		export OPTION_EXECUTE_FROM_SCRATCH=1
 		;;
 	    --soapy)
-		export EXEC_OPTARG_SOAPY=1
+		export OPTION_ENABLE_SOAPY=1
+		;;
+	    --shuttle)
+		export OPTION_ENABLE_SHUTTERPRO=1
 		;;
 	    --shell)
 		run_shell;
