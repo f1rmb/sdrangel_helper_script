@@ -15,7 +15,7 @@ INSTALL_DIR=/opt/sdrangel
 DEPS_INSTALL_DIR=$INSTALL_DIR/deps
 
 # Internal variables
-SCRIPT_VERSION="0.2.0"
+SCRIPT_VERSION="0.2.1"
 SANITY_RUN_ONCE=1
 
 OPTION_EXECUTE_FROM_SCRATCH=0
@@ -772,7 +772,7 @@ function run_SDRangel() {
 			    nohup shuttlepro /dev/input/by-id/usb-Contour_Design_ShuttleXpress-event-if00 > /dev/null 2<&1 &
 			    echo -e "\b\b\b: done."
 			else
-			    echo "ShuttlePRO device is not plugged/available, kipping..."
+			    echo "ShuttlePRO device is not plugged/available, skipping..."
 			fi
 		    else
 			echo "ShuttlePRO is already running, skipping..."
