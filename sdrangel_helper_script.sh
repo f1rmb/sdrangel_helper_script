@@ -13,9 +13,10 @@ SRC_ROOT=~/src/Ham/SDRangel/sources
 INSTALL_DIR=/opt/sdrangel
 # Installation destination (dependencies)
 DEPS_INSTALL_DIR=$INSTALL_DIR/deps
+SOAPY_MODULE_VERSION="modules0.8-2"
 
 # Internal variables
-SCRIPT_VERSION="0.2.1"
+SCRIPT_VERSION="0.4.1"
 SANITY_RUN_ONCE=1
 
 OPTION_EXECUTE_FROM_SCRATCH=0
@@ -84,7 +85,8 @@ function aptdec() {
 
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/aptdec ..
-    make -j $(nproc) install
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -105,7 +107,8 @@ function CM265cc() {
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/cm256cc ..
-    make -j $(nproc) install
+    make -j $(nproc) || exit 2
+    make install
 }
 
 
@@ -127,7 +130,8 @@ function LibDAB() {
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libdab ..
-    make -j $(nproc) install
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -148,7 +152,8 @@ function MBElib() {
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/mbelib ..
-    make -j $(nproc) install
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -169,7 +174,8 @@ function SerialDV() {
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/serialdv ..
-    make -j $(nproc) install
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -190,7 +196,8 @@ function DSDcc() {
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/dsdcc -DUSE_MBELIB=ON -DLIBMBE_INCLUDE_DIR=$DEPS_INSTALL_DIR/mbelib/include -DLIBMBE_LIBRARY=$DEPS_INSTALL_DIR/mbelib/lib/libmbe.so -DLIBSERIALDV_INCLUDE_DIR=$DEPS_INSTALL_DIR/serialdv/include/serialdv -DLIBSERIALDV_LIBRARY=$DEPS_INSTALL_DIR/serialdv/lib/libserialdv.so ..
-    make -j $(nproc) install
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -212,7 +219,8 @@ function Codec2_FreeDV() {
     
     rm -rf mkdir build_linux; mkdir build_linux; cd build_linux
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/codec2 ..
-    make -j $(nproc) install
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -231,7 +239,8 @@ function SGP4() {
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/sgp4 ..
-    make -j $(nproc) install
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -252,7 +261,8 @@ function LibSigMF() {
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libsigmf .. 
-    make -j $(nproc) install
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ############################
@@ -277,7 +287,8 @@ function Airspy_SDR() {
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libairspy ..
-    make -j $(nproc) install
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -296,7 +307,8 @@ function SDRplay_RSP1_SDR() {
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libmirisdr ..
-    make -j $(nproc) install
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -317,7 +329,8 @@ function RTL_SDR() {
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DDETACH_KERNEL_DRIVER=ON -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/librtlsdr ..
-    make -j $(nproc) install
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -338,7 +351,8 @@ function Pluto_SDR() {
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libiio -DINSTALL_UDEV_RULE=OFF ..
-    make -j $(nproc) install
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -359,7 +373,8 @@ function BladeRF_SDR() {
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libbladeRF -DINSTALL_UDEV_RULES=OFF ..
-    make -j $(nproc) install
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -380,7 +395,8 @@ function HackRF_SDR() {
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libhackrf -DINSTALL_UDEV_RULES=OFF ..
-    make -j $(nproc) install
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -397,11 +413,12 @@ function LimeSDR_SDR() {
 	git pull
     fi
     
-    git reset --hard "v20.01.0"
+    git reset --hard HEAD; git pull
     
     rm -rf builddir; mkdir builddir; cd builddir
-    cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/LimeSuite ..
-    make -j $(nproc) install
+    cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/LimeSuite -DCMAKE_PREFIX_PATH=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_MODULE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake ..
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -422,7 +439,8 @@ function AirspyHF_SDR() {
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libairspyhf ..
-    make -j $(nproc) install
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -444,7 +462,7 @@ function Perseus_SDR() {
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libperseus ..
-    make -j $(nproc)
+    make -j $(nproc) || exit 2
     make install
 }
 
@@ -469,8 +487,8 @@ function USRP_SDR() {
     git reset --hard v4.3.0.0
 
     rm -rf build; mkdir build; cd build
-    cmake -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/uhd ../
-    make -j $(nproc)
+    cmake -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/uhd -DENABLE_TESTS=OFF ../
+    make -j $(nproc) || exit 2
     make install
     $DEPS_INSTALL_DIR/uhd/lib/uhd/utils/uhd_images_downloader.py
 
@@ -508,7 +526,7 @@ function XTRX_SDR() {
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/xtrx-images -DENABLE_SOAPY=NO ..
-    make -j $(nproc)
+    make -j $(nproc) || exit 2
     make install
 }
 
@@ -531,11 +549,12 @@ function Soapy_SDR_SDR() {
 	git pull
     fi
     
-    git reset --hard "soapy-sdr-0.7.1"
+    git reset --hard HEAD; git pull
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/SoapySDR  ..
-    make -j $(nproc) install
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -553,8 +572,9 @@ function Soapy_RTL_SDR_SDR() {
     fi
 	
     rm -rf build; mkdir build; cd build
-    cmake -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_APPBUNDLE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake -DRTLSDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/librtlsdr/include -DRTLSDR_LIBRARY=$DEPS_INSTALL_DIR/librtlsdr/lib/librtlsdr.so -DSOAPY_SDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/SoapySDR/include -DSOAPY_SDR_LIBRARY=$DEPS_INSTALL_DIR/SoapySDR/lib/libSoapySDR.so ..
-    make -j $(nproc) install
+    cmake -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_MODULE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake -DRTLSDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/librtlsdr/include -DRTLSDR_LIBRARY=$DEPS_INSTALL_DIR/librtlsdr/lib/librtlsdr.so -DSOAPY_SDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/SoapySDR/include -DSOAPY_SDR_LIBRARY=$DEPS_INSTALL_DIR/SoapySDR/lib/libSoapySDR.so ..
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -572,8 +592,9 @@ function Soapy_HackRF_SDR() {
     fi
 	
     rm -rf build; mkdir build; cd build
-    cmake -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_APPBUNDLE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake -DLIBHACKRF_INCLUDE_DIR=$DEPS_INSTALL_DIR/libhackrf/include/libhackrf -DLIBHACKRF_LIBRARY=$DEPS_INSTALL_DIR/libhackrf/lib/libhackrf.so -DSOAPY_SDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/SoapySDR/include -DSOAPY_SDR_LIBRARY=$DEPS_INSTALL_DIR/SoapySDR/lib/libSoapySDR.so ..
-    make -j $(nproc) install
+    cmake -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_MODULE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake -DLIBHACKRF_INCLUDE_DIR=$DEPS_INSTALL_DIR/libhackrf/include/libhackrf -DLIBHACKRF_LIBRARY=$DEPS_INSTALL_DIR/libhackrf/lib/libhackrf.so -DSOAPY_SDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/SoapySDR/include -DSOAPY_SDR_LIBRARY=$DEPS_INSTALL_DIR/SoapySDR/lib/libSoapySDR.so ..
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -581,12 +602,13 @@ function Soapy_HackRF_SDR() {
 ##
 function Soapy_LimeSDR_SDR() {
     cd $SRC_ROOT
-    
-    if [ -d LimeSuite ]; then
-	cd LimeSuite/builddir
-	cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/LimeSuite -DCMAKE_PREFIX_PATH=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_APPBUNDLE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake ..
-	make -j $(nproc) install
-	cp $DEPS_INSTALL_DIR/LimeSuite/lib/SoapySDR/modules0.8/libLMS7Support.so $DEPS_INSTALL_DIR/SoapySDR/lib/SoapySDR/modules0.7
+
+    if [ -d LimeSuite/builddir ]; then
+	if [ -e $DEPS_INSTALL_DIR/LimeSuite/lib/SoapySDR/$SOAPY_MODULE_VERSION/libLMS7Support.so ]; then
+	    cp $DEPS_INSTALL_DIR/LimeSuite/lib/SoapySDR/$SOAPY_MODULE_VERSION/libLMS7Support.so $DEPS_INSTALL_DIR/SoapySDR/lib/SoapySDR/$SOAPY_MODULE_VERSION
+	else
+	    echo "Error: LimeSuite's SoapySDR module isn't build, skipping..."
+	fi
     fi
 }
 
@@ -608,8 +630,9 @@ function Soapy_Remote() {
     git reset --hard "soapy-remote-0.5.1"
     
     rm -rf build; mkdir build; cd build
-    cmake -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_APPBUNDLE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake -DSOAPY_SDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/SoapySDR/include -DSOAPY_SDR_LIBRARY=$DEPS_INSTALL_DIR/SoapySDR/lib/libSoapySDR.so ..
-    make -j $(nproc) install
+    cmake -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_MODULE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake -DSOAPY_SDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/SoapySDR/include -DSOAPY_SDR_LIBRARY=$DEPS_INSTALL_DIR/SoapySDR/lib/libSoapySDR.so ..
+    make -j $(nproc) || exit 2
+    make install
 }
 
 ##
@@ -666,7 +689,7 @@ function build_sdrangel() {
 	  -DLIBSIGMF_DIR=$DEPS_INSTALL_DIR/libsigmf \
 	  -DDAB_DIR=$DEPS_INSTALL_DIR/libdab \
 	  -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR ..
-    make -j $(nproc)
+    make -j $(nproc) || exit 2
     sudo make -j $(nproc) install
     
 }
@@ -694,14 +717,14 @@ function build_sdrs() {
     Pluto_SDR;
     BladeRF_SDR;
     HackRF_SDR;
+    Soapy_SDR_SDR;
     LimeSDR_SDR;
     AirspyHF_SDR;
     Perseus_SDR;
     USRP_SDR;
     XTRX_SDR;
 
-    ## Soapy
-    Soapy_SDR_SDR;
+    ## Soapy devices
     Soapy_RTL_SDR_SDR;
     Soapy_HackRF_SDR;
     Soapy_LimeSDR_SDR;
@@ -799,7 +822,7 @@ function run_SDRangel() {
 
 function run_shell() {
     echo " => Starting a sub-shell, within the installation directory ($INSTALL_DIR)..."
-    LD_LIBRARY_PATH=$DEPS_INSTALL_DIR/xtrx-images/lib:$DEPS_INSTALL_DIR/SoapySDR/lib:$DEPS_INSTALL_DIR/LimeSuite/lib:$LD_LIBRARY_PATH \
+    LD_LIBRARY_PATH=$DEPS_INSTALL_DIR/xtrx-images/lib:$DEPS_INSTALL_DIR/SoapySDR/lib:$DEPS_INSTALL_DIR/LimeSuite/lib:$DEPS_INSTALL_DIR/libhackrf/lib:$DEPS_INSTALL_DIR/librtlsdr/lib:$LD_LIBRARY_PATH \
 		   PATH=$DEPS_INSTALL_DIR/aptdec/bin:$DEPS_INSTALL_DIR/cm256cc/bin:$DEPS_INSTALL_DIR/serialdv/bin:$DEPS_INSTALL_DIR/dsdcc/bin:$DEPS_INSTALL_DIR/codec2/bin:$DEPS_INSTALL_DIR/libairspy/bin:$DEPS_INSTALL_DIR/libmirisdr/bin:$DEPS_INSTALL_DIR/librtlsdr/bin:$DEPS_INSTALL_DIR/libiio/bin:$DEPS_INSTALL_DIR/libbladeRF/bin:$DEPS_INSTALL_DIR/libhackrf/bin:$DEPS_INSTALL_DIR/LimeSuite/bin:$DEPS_INSTALL_DIR/libairspyhf/bin:$DEPS_INSTALL_DIR/uhd/bin:$DEPS_INSTALL_DIR/SoapySDR/bin:$INSTALL_DIR/bin:$PATH \
 		   /bin/bash -c "cd $INSTALL_DIR; exec /bin/bash --login -i"
 }
@@ -837,73 +860,73 @@ if [ ! -d $SRC_ROOT ]; then
     fi
 fi
 
-    if [ $# -eq 0 ]; then
-	run_SDRangel;
-	ret=$?
-	exit $ret
-    fi
-    
-    while test $# -ne 0; do
-	case "$1" in
-	    --libs|-L)
-		SanityCheck;
-		build_libs;
-		;;
-	    --sdrs|-H)
-		SanityCheck;
-		build_sdrs;
-		;;
-	    --sdrangel|-S)
-		SanityCheck;
-		build_sdrangel;
-		;;
-	    --all|-a)
-		SanityCheck;
-		build_libs;
-		build_sdrs;
-		build_sdrangel;
-		;;
-	    --execute|-e)
-		## Execute SDRangel
-		run_SDRangel;
-		ret=$?
-		exit $ret
-		;;
-	    --scratch)
-		export OPTION_EXECUTE_FROM_SCRATCH=1
-		;;
-	    --soapy)
-		export OPTION_ENABLE_SOAPY=1
-		;;
-	    --shuttle)
-		export OPTION_ENABLE_SHUTTERPRO=1
-		;;
-	    --shell)
-		run_shell;
-		;;
-	    --install)
-		if [ ! -d $SRC_ROOT ]; then
-		    echo "Creating sources directory $SRC_ROOT..."
-		    mkdir -p $SRC_ROOT
-		    echo "Done."
-		fi
-		echo "Installing $0 to ~/bin/angel.sh..."
-		mkdir -p ~/bin
-		cp -vf "$0" ~/bin/angel.sh && \
-		    chown $USER:$USER ~/bin/angel.sh && \
-		    chmod 0770 ~/bin/angel.sh
+if [ $# -eq 0 ]; then
+    run_SDRangel;
+    ret=$?
+    exit $ret
+fi
+
+while test $# -ne 0; do
+    case "$1" in
+	--libs|-L)
+	    SanityCheck;
+	    build_libs;
+	    ;;
+	--sdrs|-H)
+	    SanityCheck;
+	    build_sdrs;
+	    ;;
+	--sdrangel|-S)
+	    SanityCheck;
+	    build_sdrangel;
+	    ;;
+	--all|-a)
+	    SanityCheck;
+	    build_libs;
+	    build_sdrs;
+	    build_sdrangel;
+	    ;;
+	--execute|-e)
+	    ## Execute SDRangel
+	    run_SDRangel;
+	    ret=$?
+	    exit $ret
+	    ;;
+	--scratch)
+	    export OPTION_EXECUTE_FROM_SCRATCH=1
+	    ;;
+	--soapy)
+	    export OPTION_ENABLE_SOAPY=1
+	    ;;
+	--shuttle)
+	    export OPTION_ENABLE_SHUTTERPRO=1
+	    ;;
+	--shell)
+	    run_shell;
+	    ;;
+	--install)
+	    if [ ! -d $SRC_ROOT ]; then
+		echo "Creating sources directory $SRC_ROOT..."
+		mkdir -p $SRC_ROOT
 		echo "Done."
-		;;
-#	    test)
-#		build_test;
-#		;;
-	    *|--help|-h)
-		usage;
-		exit 1
-		;;
-	esac
-	
-	shift
-    done
+	    fi
+	    echo "Installing $0 to ~/bin/angel.sh..."
+	    mkdir -p ~/bin
+	    cp -vf "$0" ~/bin/angel.sh && \
+		chown $USER:$USER ~/bin/angel.sh && \
+		chmod 0770 ~/bin/angel.sh
+	    echo "Done."
+	    ;;
+	#	    --test)
+	#		build_test;
+	#		;;
+	*|--help|-h)
+	    usage;
+	    exit 1
+	    ;;
+    esac
+    
+    shift
+done
 
 exit 0
