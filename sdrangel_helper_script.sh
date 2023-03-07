@@ -839,7 +839,7 @@ function usage() {
     echo "      --soapy                Execute SDRangel with Soapy SDR support"
     echo "      --shuttle              Execute shuttlepro software if needed."
     echo "      --shell                Open a sub-shell (bash) with LD_LIBRARY_PATH set."
-    echo "      --install              Install this script to $HOME/bin/angel.sh"
+    echo "      --install              Install this script to ~/bin/angel.sh"
     echo "  [no arg]                   Execute SDRangel."
     echo ""
     echo ""
