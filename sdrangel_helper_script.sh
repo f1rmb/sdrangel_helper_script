@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Copyright (C)      2023 F1RMB; Daniel Caujolle-Bert <f1rmb.daniel@naboo-homelinux.org>
+# Copyright (C) 2023-2024 F1RMB; Daniel Caujolle-Bert <f1rmb.daniel@naboo-homelinux.org>
 #               2019-2023 F4EXB; Edouard Griffiths <f4exb06@gmail.com> and contributors to the "Compile from source in Linux" wiki page
 #
 # License GPLv2: GNU GPL version 2 <http://gnu.org/licenses/gpl2.html>.
