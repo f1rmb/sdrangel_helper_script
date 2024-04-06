@@ -16,7 +16,7 @@ DEPS_INSTALL_DIR=$INSTALL_DIR/deps
 SOAPY_MODULE_VERSION="modules0.8-2"
 
 # Internal variables
-SCRIPT_VERSION="0.4.1"
+SCRIPT_VERSION="0.4.2"
 SANITY_RUN_ONCE=1
 
 OPTION_EXECUTE_FROM_SCRATCH=0
@@ -103,7 +103,7 @@ function CM265cc() {
 	git pull
     fi
     
-    git reset --hard c0e92b92aca3d1d36c990b642b937c64d363c559
+    git reset --hard 6f4a51802f5f302577d6d270a9fc0cb7a1ee28ef
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/cm256cc ..
@@ -192,7 +192,7 @@ function DSDcc() {
 	git pull
     fi
 
-    git reset --hard "v1.9.3"
+    git reset --hard "v1.9.5"
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/dsdcc -DUSE_MBELIB=ON -DLIBMBE_INCLUDE_DIR=$DEPS_INSTALL_DIR/mbelib/include -DLIBMBE_LIBRARY=$DEPS_INSTALL_DIR/mbelib/lib/libmbe.so -DLIBSERIALDV_INCLUDE_DIR=$DEPS_INSTALL_DIR/serialdv/include/serialdv -DLIBSERIALDV_LIBRARY=$DEPS_INSTALL_DIR/serialdv/lib/libserialdv.so ..
@@ -215,7 +215,8 @@ function Codec2_FreeDV() {
 	git pull
     fi
     
-    git reset --hard 76a20416d715ee06f8b36a9953506876689a3bd2
+    #git reset --hard 76a20416d715ee06f8b36a9953506876689a3bd2
+    git reset --hard "v1.0.3"
     
     rm -rf mkdir build_linux; mkdir build_linux; cd build_linux
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/codec2 ..
@@ -325,7 +326,7 @@ function RTL_SDR() {
 	git pull
     fi
     
-    git reset --hard be1d1206bfb6e6c41f7d91b20b77e20f929fa6a7
+    git reset --hard 420086af84d7eaaf98ff948cd11fea2cae71734a
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DDETACH_KERNEL_DRIVER=ON -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/librtlsdr ..
@@ -369,7 +370,7 @@ function BladeRF_SDR() {
 	git pull
     fi
     
-    ##git reset --hard "2019.07"
+    git reset --hard "2023.02"
     
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libbladeRF -DINSTALL_UDEV_RULES=OFF ..
@@ -413,7 +414,8 @@ function LimeSDR_SDR() {
 	git pull
     fi
     
-    git reset --hard HEAD; git pull
+    #git reset --hard HEAD; git pull
+    git reset --hard "v20.01.0"
     
     rm -rf builddir; mkdir builddir; cd builddir
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/LimeSuite -DCMAKE_PREFIX_PATH=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_MODULE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake ..
@@ -484,7 +486,7 @@ function USRP_SDR() {
 	git pull
     fi
     
-    git reset --hard v4.3.0.0
+    git reset --hard v4.5.0.0
 
     rm -rf build; mkdir build; cd build
     cmake -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/uhd -DENABLE_TESTS=OFF ../
@@ -548,7 +550,8 @@ function Soapy_SDR_SDR() {
 	cd SoapySDR
 	git pull
     fi
-    
+
+    ##git reset --hard "soapy-sdr-0.7.1"
     git reset --hard HEAD; git pull
     
     rm -rf build; mkdir build; cd build
