@@ -45,7 +45,7 @@ function SanityCheck() {
     if [ x$SANITY_RUN_ONCE = "x1" ]; then
 	sudo true
     fi
-    
+
     if [ ! -d $DEPS_INSTALL_DIR ]; then
 	sudo mkdir -p $DEPS_INSTALL_DIR
 	sudo chown $USER:users $DEPS_INSTALL_DIR
@@ -102,9 +102,9 @@ function CM265cc() {
 	cd cm256cc
 	git pull
     fi
-    
+
     git reset --hard 6f4a51802f5f302577d6d270a9fc0cb7a1ee28ef
-    
+
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/cm256cc ..
     make -j $(nproc) || exit 2
@@ -127,7 +127,7 @@ function LibDAB() {
     fi
 
     git checkout msvc
-    
+
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libdab ..
     make -j $(nproc) || exit 2
@@ -147,9 +147,9 @@ function MBElib() {
 	cd mbelib
 	git pull
     fi
-	
+
     git reset --hard 9a04ed5c78176a9965f3d43f7aa1b1f5330e771f
-    
+
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/mbelib ..
     make -j $(nproc) || exit 2
@@ -161,7 +161,7 @@ function MBElib() {
 ##
 function SerialDV() {
     cd $SRC_ROOT
-    
+
     if [ ! -d serialDV ]; then
 	git clone https://github.com/f4exb/serialDV.git
 	cd serialDV
@@ -169,9 +169,9 @@ function SerialDV() {
 	cd serialDV
 	git pull
     fi
-    
+
     git reset --hard "v1.1.4"
-    
+
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/serialdv ..
     make -j $(nproc) || exit 2
@@ -183,7 +183,7 @@ function SerialDV() {
 ##
 function DSDcc() {
     cd $SRC_ROOT
-    
+
     if [ ! -d dsdcc ]; then
 	git clone https://github.com/f4exb/dsdcc.git
 	cd dsdcc
@@ -193,7 +193,7 @@ function DSDcc() {
     fi
 
     git reset --hard "v1.9.5"
-    
+
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/dsdcc -DUSE_MBELIB=ON -DLIBMBE_INCLUDE_DIR=$DEPS_INSTALL_DIR/mbelib/include -DLIBMBE_LIBRARY=$DEPS_INSTALL_DIR/mbelib/lib/libmbe.so -DLIBSERIALDV_INCLUDE_DIR=$DEPS_INSTALL_DIR/serialdv/include/serialdv -DLIBSERIALDV_LIBRARY=$DEPS_INSTALL_DIR/serialdv/lib/libserialdv.so ..
     make -j $(nproc) || exit 2
@@ -205,7 +205,7 @@ function DSDcc() {
 ##
 function Codec2_FreeDV() {
     cd $SRC_ROOT
-    
+
     if [ ! -d codec2 ]; then
 	sudo apt-get -y install libspeexdsp-dev libsamplerate0-dev
 	git clone https://github.com/drowe67/codec2.git
@@ -214,10 +214,10 @@ function Codec2_FreeDV() {
 	cd codec2
 	git pull
     fi
-    
+
     #git reset --hard 76a20416d715ee06f8b36a9953506876689a3bd2
     git reset --hard "v1.0.3"
-    
+
     rm -rf mkdir build_linux; mkdir build_linux; cd build_linux
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/codec2 ..
     make -j $(nproc) || exit 2
@@ -229,7 +229,7 @@ function Codec2_FreeDV() {
 ##
 function SGP4() {
     cd $SRC_ROOT
-    
+
     if [ ! -d sgp4 ]; then
 	git clone https://github.com/dnwrnr/sgp4.git
 	cd sgp4
@@ -237,7 +237,7 @@ function SGP4() {
 	cd sgp4
 	git pull
     fi
-    
+
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/sgp4 ..
     make -j $(nproc) || exit 2
@@ -249,7 +249,7 @@ function SGP4() {
 ##
 function LibSigMF() {
     cd $SRC_ROOT
-    
+
     if [ ! -d libsigmf ]; then
 	git clone https://github.com/f4exb/libsigmf.git
 	cd libsigmf
@@ -257,11 +257,31 @@ function LibSigMF() {
 	cd libsigmf
 	git pull
     fi
-    
+
     git checkout "new-namespaces"
-    
+
     rm -rf build; mkdir build; cd build
-    cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libsigmf .. 
+    cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libsigmf ..
+    make -j $(nproc) || exit 2
+    make install
+}
+
+##
+### GGMorse
+##
+function GGMorse() {
+    cd $SRC_ROOT
+
+    if [ ! -d ggmorse ]; then
+	git clone https://github.com/ggerganov/ggmorse.git
+	cd ggmorse
+    else
+	cd ggmorse
+	git pull
+    fi
+
+    rm -rf build; mkdir build; cd build
+    cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/ggmorse -DGGMORSE_BUILD_TESTS=OFF -DGGMORSE_BUILD_EXAMPLES=OFF ..
     make -j $(nproc) || exit 2
     make install
 }
@@ -275,7 +295,7 @@ function LibSigMF() {
 ##
 function Airspy_SDR() {
     cd $SRC_ROOT
-    
+
     if [ ! -d libairspy ]; then
 	git clone https://github.com/airspy/airspyone_host.git libairspy
 	cd libairspy
@@ -283,9 +303,9 @@ function Airspy_SDR() {
 	cd libairspy
 	git pull
     fi
-    
+
     git reset --hard 37c768ce9997b32e7328eb48972a7fda0a1f8554
-    
+
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libairspy ..
     make -j $(nproc) || exit 2
@@ -297,7 +317,7 @@ function Airspy_SDR() {
 ##
 function SDRplay_RSP1_SDR() {
     cd $SRC_ROOT
-    
+
     if [ ! -d libmirisdr-4 ]; then
 	git clone https://github.com/f4exb/libmirisdr-4.git
 	cd libmirisdr-4
@@ -305,7 +325,7 @@ function SDRplay_RSP1_SDR() {
 	cd libmirisdr-4
 	git pull
     fi
-    
+
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libmirisdr ..
     make -j $(nproc) || exit 2
@@ -317,7 +337,7 @@ function SDRplay_RSP1_SDR() {
 ##
 function RTL_SDR() {
     cd $SRC_ROOT
-    
+
     if [ ! -d librtlsdr ]; then
 	git clone https://github.com/osmocom/rtl-sdr.git librtlsdr
 	cd librtlsdr
@@ -325,9 +345,9 @@ function RTL_SDR() {
 	cd librtlsdr
 	git pull
     fi
-    
+
     git reset --hard 420086af84d7eaaf98ff948cd11fea2cae71734a
-    
+
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DDETACH_KERNEL_DRIVER=ON -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/librtlsdr ..
     make -j $(nproc) || exit 2
@@ -339,7 +359,7 @@ function RTL_SDR() {
 ##
 function Pluto_SDR() {
     cd $SRC_ROOT
-    
+
     if [ ! -d libiio ]; then
 	git clone https://github.com/analogdevicesinc/libiio.git
 	cd libiio
@@ -347,9 +367,9 @@ function Pluto_SDR() {
 	cd libiio
 	git pull
     fi
-    
+
     git reset --hard v0.21
-    
+
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libiio -DINSTALL_UDEV_RULE=OFF ..
     make -j $(nproc) || exit 2
@@ -361,7 +381,7 @@ function Pluto_SDR() {
 ##
 function BladeRF_SDR() {
     cd $SRC_ROOT
-    
+
     if [ ! -d bladeRF ]; then
 	git clone https://github.com/Nuand/bladeRF.git
 	cd bladeRF/host
@@ -369,9 +389,9 @@ function BladeRF_SDR() {
 	cd bladeRF/host
 	git pull
     fi
-    
+
     git reset --hard "2023.02"
-    
+
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libbladeRF -DINSTALL_UDEV_RULES=OFF ..
     make -j $(nproc) || exit 2
@@ -383,7 +403,7 @@ function BladeRF_SDR() {
 ##
 function HackRF_SDR() {
     cd $SRC_ROOT
-    
+
     if [ ! -d hackrf ]; then
 	git clone https://github.com/greatscottgadgets/hackrf.git
 	cd hackrf/host
@@ -391,9 +411,9 @@ function HackRF_SDR() {
 	cd hackrf/host
 	git pull
     fi
-    
+
     git reset --hard "v2022.09.1"
-    
+
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libhackrf -DINSTALL_UDEV_RULES=OFF ..
     make -j $(nproc) || exit 2
@@ -405,7 +425,7 @@ function HackRF_SDR() {
 ##
 function LimeSDR_SDR() {
     cd $SRC_ROOT
-    
+
     if [ ! -d LimeSuite ]; then
 	git clone https://github.com/myriadrf/LimeSuite.git
 	cd LimeSuite
@@ -413,10 +433,10 @@ function LimeSDR_SDR() {
 	cd LimeSuite
 	git pull
     fi
-    
+
     #git reset --hard HEAD; git pull
     git reset --hard "v20.01.0"
-    
+
     rm -rf builddir; mkdir builddir; cd builddir
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/LimeSuite -DCMAKE_PREFIX_PATH=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_MODULE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake ..
     make -j $(nproc) || exit 2
@@ -428,7 +448,7 @@ function LimeSDR_SDR() {
 ##
 function AirspyHF_SDR() {
     cd $SRC_ROOT
-    
+
     if [ ! -d airspyhf ]; then
 	git clone https://github.com/airspy/airspyhf
 	cd airspyhf
@@ -436,9 +456,9 @@ function AirspyHF_SDR() {
 	cd airspyhf
 	git pull
     fi
-    
+
     git reset --hard 1af81c0ca18944b8c9897c3c98dc0a991815b686
-    
+
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libairspyhf ..
     make -j $(nproc) || exit 2
@@ -450,7 +470,7 @@ function AirspyHF_SDR() {
 ##
 function Perseus_SDR() {
     cd $SRC_ROOT
-    
+
     if [ ! -d libperseus-sdr ]; then
 	git clone https://github.com/f4exb/libperseus-sdr.git
 	cd libperseus-sdr
@@ -458,10 +478,10 @@ function Perseus_SDR() {
 	cd libperseus-sdr
 	git pull
     fi
-	
+
     git checkout fixes
     git reset --hard afefa23e3140ac79d845acb68cf0beeb86d09028
-    
+
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/libperseus ..
     make -j $(nproc) || exit 2
@@ -475,7 +495,7 @@ function USRP_SDR() {
     cd $SRC_ROOT
 
     export postinstallUSRP=0
-    
+
     if [ ! -d uhd ]; then
 	sudo apt-get -y install libboost-all-dev libusb-1.0-0-dev python3-mako doxygen python3-docutils cmake build-essential
 	git clone https://github.com/EttusResearch/uhd.git
@@ -485,7 +505,7 @@ function USRP_SDR() {
 	cd uhd/host
 	git pull
     fi
-    
+
     git reset --hard v4.5.0.0
 
     rm -rf build; mkdir build; cd build
@@ -512,7 +532,7 @@ function USRP_SDR() {
 ##
 function XTRX_SDR() {
     cd $SRC_ROOT
-    
+
     if [ ! -d xtrx-images ]; then
 	sudo apt-get -y install build-essential dkms python3 python3-cheetah
 	git clone https://github.com/f4exb/images.git xtrx-images
@@ -525,7 +545,7 @@ function XTRX_SDR() {
 	git pull
 	cd sources
     fi
-    
+
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/xtrx-images -DENABLE_SOAPY=NO ..
     make -j $(nproc) || exit 2
@@ -542,7 +562,7 @@ function XTRX_SDR() {
 ##
 function Soapy_SDR_SDR() {
     cd $SRC_ROOT
-    
+
     if [ ! -d SoapySDR ]; then
 	git clone https://github.com/pothosware/SoapySDR.git
 	cd SoapySDR
@@ -553,7 +573,7 @@ function Soapy_SDR_SDR() {
 
     ##git reset --hard "soapy-sdr-0.7.1"
     git reset --hard HEAD; git pull
-    
+
     rm -rf build; mkdir build; cd build
     cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/SoapySDR  ..
     make -j $(nproc) || exit 2
@@ -565,7 +585,7 @@ function Soapy_SDR_SDR() {
 ##
 function Soapy_RTL_SDR_SDR() {
     cd $SRC_ROOT
-    
+
     if [ ! -d SoapyRTLSDR ]; then
 	git clone https://github.com/pothosware/SoapyRTLSDR.git
 	cd SoapyRTLSDR
@@ -573,7 +593,7 @@ function Soapy_RTL_SDR_SDR() {
 	cd SoapyRTLSDR
 	git pull
     fi
-	
+
     rm -rf build; mkdir build; cd build
     cmake -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_MODULE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake -DRTLSDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/librtlsdr/include -DRTLSDR_LIBRARY=$DEPS_INSTALL_DIR/librtlsdr/lib/librtlsdr.so -DSOAPY_SDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/SoapySDR/include -DSOAPY_SDR_LIBRARY=$DEPS_INSTALL_DIR/SoapySDR/lib/libSoapySDR.so ..
     make -j $(nproc) || exit 2
@@ -585,7 +605,7 @@ function Soapy_RTL_SDR_SDR() {
 ##
 function Soapy_HackRF_SDR() {
     cd $SRC_ROOT
-    
+
     if [ ! -d SoapyHackRF ]; then
 	git clone https://github.com/pothosware/SoapyHackRF.git
 	cd SoapyHackRF
@@ -593,7 +613,7 @@ function Soapy_HackRF_SDR() {
 	cd SoapyHackRF
 	git pull
     fi
-	
+
     rm -rf build; mkdir build; cd build
     cmake -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_MODULE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake -DLIBHACKRF_INCLUDE_DIR=$DEPS_INSTALL_DIR/libhackrf/include/libhackrf -DLIBHACKRF_LIBRARY=$DEPS_INSTALL_DIR/libhackrf/lib/libhackrf.so -DSOAPY_SDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/SoapySDR/include -DSOAPY_SDR_LIBRARY=$DEPS_INSTALL_DIR/SoapySDR/lib/libSoapySDR.so ..
     make -j $(nproc) || exit 2
@@ -629,9 +649,9 @@ function Soapy_Remote() {
 	cd SoapyRemote
 	git pull
     fi
-    
+
     git reset --hard "soapy-remote-0.5.1"
-    
+
     rm -rf build; mkdir build; cd build
     cmake -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_MODULE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake -DSOAPY_SDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/SoapySDR/include -DSOAPY_SDR_LIBRARY=$DEPS_INSTALL_DIR/SoapySDR/lib/libSoapySDR.so ..
     make -j $(nproc) || exit 2
@@ -646,7 +666,7 @@ function build_sdrangel() {
     # This is for a 24 bit samples build. For 16 bit use -DRX_SAMPLE_24BIT=OFF
     #sample_optarg=" -DRX_SAMPLE_24BIT=OFF "
     sample_optarg=" -DRX_SAMPLE_24BIT=ON "
-    
+
     #
     # Additional options on cmake line for partial compilation:
     #    -DBUILD_SERVER=OFF to compile the GUI variant only
@@ -656,7 +676,7 @@ function build_sdrangel() {
     ##dev_optargs=" -Wno-dev -DDEBUG_OUTPUT=ON "
     ## Silent:
     dev_optargs=" -Wno-dev "
-    
+
     cd $SRC_ROOT
 
     if [ ! -d sdrangel ]; then
@@ -666,7 +686,7 @@ function build_sdrangel() {
 	cd sdrangel
 	git pull
     fi
-    
+
     rm -rf build; mkdir build; cd build
     cmake $dev_optargs $sample_optarg \
 	  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
@@ -690,16 +710,17 @@ function build_sdrangel() {
 	  -DCODEC2_DIR=$DEPS_INSTALL_DIR/codec2 \
 	  -DSGP4_DIR=$DEPS_INSTALL_DIR/sgp4 \
 	  -DLIBSIGMF_DIR=$DEPS_INSTALL_DIR/libsigmf \
+	  -DGGMORSE=$DEPS_INSTALL_DIR/ggmorse \
 	  -DDAB_DIR=$DEPS_INSTALL_DIR/libdab \
 	  -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR ..
     make -j $(nproc) || exit 2
     sudo make -j $(nproc) install
-    
+
 }
 
 function build_libs() {
     SanityCheck;
-    
+
     aptdec;
     CM265cc;
     LibDAB;
@@ -736,7 +757,7 @@ function build_sdrs() {
 
 function build_test() {
     #    SanityCheck;
-    
+
     #    aptdec;
     #    CM265cc;
     #    LibDAB;
@@ -746,7 +767,8 @@ function build_test() {
     #    Codec2_FreeDV;
     #    SGP4;
     #    LibSigMF;
-    
+    #    GGMorse;
+
     #    Airspy_SDR;
     #    SDRplay_RSP1_SDR;
     #    RTL_SDR;
@@ -758,14 +780,14 @@ function build_test() {
     #    Perseus_SDR;
     #    USRP_SDR;
     #    XTRX_SDR;
-    
+
     ## Soapy
     #    Soapy_SDR_SDR;
     #    Soapy_RTL_SDR_SDR;
     #    Soapy_HackRF_SDR;
     #    Soapy_LimeSDR_SDR;
     #    Soapy_Remote;
-    
+
     #    build_sdrangel;
     :
 }
@@ -784,7 +806,7 @@ function run_SDRangel() {
 	if [ x$OPTION_EXECUTE_FROM_SCRATCH != "x0" ]; then
 	    optargs="--scratch"
 	fi
-	
+
 	if [ x$OPTION_ENABLE_SOAPY != "x0" ]; then
 	    optargs="$optargs --soapy"
 	fi
@@ -810,11 +832,11 @@ function run_SDRangel() {
 		echo "ShuttlePRO binary not found, skipping..."
 	    fi
 	fi
-	
+
 	#export QT_SCREEN_SCALE_FACTORS=1
 	#export QT_SCALE_FACTOR=1
 	#export QT_AUTO_SCREEN_SCALE_FACTOR=0
-	
+
 	LD_LIBRARY_PATH=$DEPS_INSTALL_DIR/xtrx-images/lib:$DEPS_INSTALL_DIR/SoapySDR/lib:$DEPS_INSTALL_DIR/LimeSuite/lib:$LD_LIBRARY_PATH \
 		       $INSTALL_DIR/bin/sdrangel $optargs
 	return $?
@@ -928,7 +950,7 @@ while test $# -ne 0; do
 	    exit 1
 	    ;;
     esac
-    
+
     shift
 done
 
