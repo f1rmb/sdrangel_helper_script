@@ -710,7 +710,7 @@ function build_sdrangel() {
 	  -DCODEC2_DIR=$DEPS_INSTALL_DIR/codec2 \
 	  -DSGP4_DIR=$DEPS_INSTALL_DIR/sgp4 \
 	  -DLIBSIGMF_DIR=$DEPS_INSTALL_DIR/libsigmf \
-	  -DGGMORSE=$DEPS_INSTALL_DIR/ggmorse \
+	  -DGGMORSE_DIR=$DEPS_INSTALL_DIR/ggmorse \
 	  -DDAB_DIR=$DEPS_INSTALL_DIR/libdab \
 	  -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR ..
     make -j $(nproc) || exit 2
@@ -730,6 +730,7 @@ function build_libs() {
     Codec2_FreeDV;
     SGP4;
     LibSigMF;
+    GGMorse;
 }
 
 function build_sdrs() {
