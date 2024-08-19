@@ -16,7 +16,7 @@ DEPS_INSTALL_DIR=$INSTALL_DIR/deps
 SOAPY_MODULE_VERSION="modules0.8-2"
 
 # Internal variables
-SCRIPT_VERSION="0.4.2"
+SCRIPT_VERSION="0.4.3"
 SANITY_RUN_ONCE=1
 
 OPTION_EXECUTE_FROM_SCRATCH=0
@@ -70,6 +70,7 @@ function SanityCheck() {
 ### aptdec
 ###
 function aptdec() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d aptdec ]; then
@@ -93,6 +94,7 @@ function aptdec() {
 ### CM265cc
 ##
 function CM265cc() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d cm256cc ]; then
@@ -116,6 +118,7 @@ function CM265cc() {
 ### LibDAB
 ##
 function LibDAB() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d dab-cmdline ]; then
@@ -138,6 +141,7 @@ function LibDAB() {
 ### MBElib
 ##
 function MBElib() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d mbelib ]; then
@@ -160,6 +164,7 @@ function MBElib() {
 ### SerialDV
 ##
 function SerialDV() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d serialDV ]; then
@@ -182,6 +187,7 @@ function SerialDV() {
 ### DSDcc
 ##
 function DSDcc() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d dsdcc ]; then
@@ -204,6 +210,7 @@ function DSDcc() {
 ### Codec2/FreeDV
 ##
 function Codec2_FreeDV() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d codec2 ]; then
@@ -228,6 +235,7 @@ function Codec2_FreeDV() {
 ### SGP4
 ##
 function SGP4() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d sgp4 ]; then
@@ -248,6 +256,7 @@ function SGP4() {
 ### LibSigMF
 ##
 function LibSigMF() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d libsigmf ]; then
@@ -270,6 +279,7 @@ function LibSigMF() {
 ### GGMorse
 ##
 function GGMorse() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d ggmorse ]; then
@@ -294,6 +304,7 @@ function GGMorse() {
 ### Airspy
 ##
 function Airspy_SDR() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d libairspy ]; then
@@ -316,6 +327,7 @@ function Airspy_SDR() {
 ### SDRplay RSP1
 ##
 function SDRplay_RSP1_SDR() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d libmirisdr-4 ]; then
@@ -336,6 +348,7 @@ function SDRplay_RSP1_SDR() {
 ### RTL-SDR
 ##
 function RTL_SDR() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d librtlsdr ]; then
@@ -358,6 +371,7 @@ function RTL_SDR() {
 ### Pluto SDR
 ##
 function Pluto_SDR() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d libiio ]; then
@@ -380,6 +394,7 @@ function Pluto_SDR() {
 ### BladeRF all versions
 ##
 function BladeRF_SDR() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d bladeRF ]; then
@@ -402,6 +417,7 @@ function BladeRF_SDR() {
 ### HackRF
 ##
 function HackRF_SDR() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d hackrf ]; then
@@ -424,6 +440,7 @@ function HackRF_SDR() {
 ### LimeSDR
 ##
 function LimeSDR_SDR() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d LimeSuite ]; then
@@ -447,6 +464,7 @@ function LimeSDR_SDR() {
 ### AirspyHF
 ##
 function AirspyHF_SDR() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d airspyhf ]; then
@@ -469,6 +487,7 @@ function AirspyHF_SDR() {
 ### Perseus
 ##
 function Perseus_SDR() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d libperseus-sdr ]; then
@@ -492,12 +511,15 @@ function Perseus_SDR() {
 ### USRP
 ##
 function USRP_SDR() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     export postinstallUSRP=0
 
     if [ ! -d uhd ]; then
-	sudo apt-get -y install libboost-all-dev libusb-1.0-0-dev python3-mako doxygen python3-docutils cmake build-essential
+	sudo apt-get -y install inetutils-tools libboost-all-dev libusb-1.0-0-dev libusb-dev \
+	     python3-dev python3-mako python3-numpy python3-requests python3-scipy python3-setuptools \
+	     python3-ruamel.yaml doxygen python3-docutils cmake build-essential
 	git clone https://github.com/EttusResearch/uhd.git
 	cd uhd/host
 	export postinstallUSRP=1
@@ -509,7 +531,7 @@ function USRP_SDR() {
     git reset --hard v4.5.0.0
 
     rm -rf build; mkdir build; cd build
-    cmake -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/uhd -DENABLE_TESTS=OFF ../
+    cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/uhd -DENABLE_TESTS=OFF ../
     make -j $(nproc) || exit 2
     make install
     $DEPS_INSTALL_DIR/uhd/lib/uhd/utils/uhd_images_downloader.py
@@ -531,6 +553,7 @@ function USRP_SDR() {
 ### XTRX
 ##
 function XTRX_SDR() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d xtrx-images ]; then
@@ -561,6 +584,7 @@ function XTRX_SDR() {
 ### Soapy SDR
 ##
 function Soapy_SDR_SDR() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d SoapySDR ]; then
@@ -584,6 +608,7 @@ function Soapy_SDR_SDR() {
 ### Soapy RTL-SDR
 ##
 function Soapy_RTL_SDR_SDR() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d SoapyRTLSDR ]; then
@@ -595,7 +620,7 @@ function Soapy_RTL_SDR_SDR() {
     fi
 
     rm -rf build; mkdir build; cd build
-    cmake -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_MODULE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake -DRTLSDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/librtlsdr/include -DRTLSDR_LIBRARY=$DEPS_INSTALL_DIR/librtlsdr/lib/librtlsdr.so -DSOAPY_SDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/SoapySDR/include -DSOAPY_SDR_LIBRARY=$DEPS_INSTALL_DIR/SoapySDR/lib/libSoapySDR.so ..
+    cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_MODULE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake -DRTLSDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/librtlsdr/include -DRTLSDR_LIBRARY=$DEPS_INSTALL_DIR/librtlsdr/lib/librtlsdr.so -DSOAPY_SDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/SoapySDR/include -DSOAPY_SDR_LIBRARY=$DEPS_INSTALL_DIR/SoapySDR/lib/libSoapySDR.so ..
     make -j $(nproc) || exit 2
     make install
 }
@@ -604,6 +629,7 @@ function Soapy_RTL_SDR_SDR() {
 ### Soapy HackRF
 ##
 function Soapy_HackRF_SDR() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d SoapyHackRF ]; then
@@ -615,7 +641,7 @@ function Soapy_HackRF_SDR() {
     fi
 
     rm -rf build; mkdir build; cd build
-    cmake -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_MODULE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake -DLIBHACKRF_INCLUDE_DIR=$DEPS_INSTALL_DIR/libhackrf/include/libhackrf -DLIBHACKRF_LIBRARY=$DEPS_INSTALL_DIR/libhackrf/lib/libhackrf.so -DSOAPY_SDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/SoapySDR/include -DSOAPY_SDR_LIBRARY=$DEPS_INSTALL_DIR/SoapySDR/lib/libSoapySDR.so ..
+    cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_MODULE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake -DLIBHACKRF_INCLUDE_DIR=$DEPS_INSTALL_DIR/libhackrf/include/libhackrf -DLIBHACKRF_LIBRARY=$DEPS_INSTALL_DIR/libhackrf/lib/libhackrf.so -DSOAPY_SDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/SoapySDR/include -DSOAPY_SDR_LIBRARY=$DEPS_INSTALL_DIR/SoapySDR/lib/libSoapySDR.so ..
     make -j $(nproc) || exit 2
     make install
 }
@@ -624,6 +650,7 @@ function Soapy_HackRF_SDR() {
 ### Soapy LimeSDR
 ##
 function Soapy_LimeSDR_SDR() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ -d LimeSuite/builddir ]; then
@@ -639,6 +666,7 @@ function Soapy_LimeSDR_SDR() {
 ### Soapy Remote
 ##
 function Soapy_Remote() {
+    echo "(III) Entering ${FUNCNAME[0]}():"
     cd $SRC_ROOT
 
     if [ ! -d SoapyRemote ]; then
@@ -653,7 +681,7 @@ function Soapy_Remote() {
     git reset --hard "soapy-remote-0.5.1"
 
     rm -rf build; mkdir build; cd build
-    cmake -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_MODULE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake -DSOAPY_SDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/SoapySDR/include -DSOAPY_SDR_LIBRARY=$DEPS_INSTALL_DIR/SoapySDR/lib/libSoapySDR.so ..
+    cmake -Wno-dev -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_DIR/SoapySDR -DCMAKE_MODULE_PATH=$DEPS_INSTALL_DIR/SoapySDR/share/cmake -DSOAPY_SDR_INCLUDE_DIR=$DEPS_INSTALL_DIR/SoapySDR/include -DSOAPY_SDR_LIBRARY=$DEPS_INSTALL_DIR/SoapySDR/lib/libSoapySDR.so ..
     make -j $(nproc) || exit 2
     make install
 }
@@ -943,9 +971,9 @@ while test $# -ne 0; do
 		chmod 0770 ~/bin/angel.sh
 	    echo "Done."
 	    ;;
-	#	    --test)
-	#		build_test;
-	#		;;
+#	--test|-t)
+#	    build_test;
+#	    ;;
 	*|--help|-h)
 	    usage;
 	    exit 1
